@@ -1,0 +1,19 @@
+nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+
+  background-color: var(--header-background-color);
+  color: var(--font-color-light);
+}
+
+.nav-tab {
+  cursor: pointer;
+  user-select: none;
+}
+
+.true {
+  border-bottom: 3px solid var(--select-color);
+}

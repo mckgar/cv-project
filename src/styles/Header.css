@@ -1,0 +1,10 @@
+header {
+  background-color: var(--header-background-color);
+  color: var(--font-color-light);
+
+  padding-bottom: 1rem;
+}
+
+h1 {
+  font-size: 3rem;
+}
