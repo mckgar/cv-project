@@ -25,17 +25,7 @@ class App extends Component {
       degreeType: '',
       grad: '',
 
-      company: '',
-      jobTitle: '',
-      newTask: {
-        text: '',
-        id: uniqid(),
-        isEditing: false,
-        tempText: ''
-      },
-      tasks: [],
-      startDate: '',
-      endDate: ''
+      jobs: []
     }
 
     this.ActiveTab = this.ActiveTab.bind(this);
@@ -52,6 +42,7 @@ class App extends Component {
     this.degreeTypeChange = this.degreeTypeChange.bind(this);
     this.gradChange = this.gradChange.bind(this);
 
+    this.addJob = this.addJob.bind(this);
     this.companyChange = this.companyChange.bind(this);
     this.jobTitleChange = this.jobTitleChange.bind(this);
     this.newTaskChange = this.newTaskChange.bind(this);
@@ -119,80 +110,228 @@ class App extends Component {
 
   /* Experience Information tab functions */
 
-  companyChange(e) {
+  addJob() {
+    const newJob = {
+      id: uniqid(),
+      company: '',
+      jobTitle: '',
+      newTask: {
+        text: '',
+        id: uniqid(),
+        isEditing: false,
+        tempText: ''
+      },
+      tasks: [],
+      startDate: '',
+      endDate: ''
+    }
     this.setState({
-      company: e.target.value
+      jobs: this.state.jobs.concat(newJob),
+    })
+  }
+
+  companyChange(e) {
+    const id = e.target.parentNode.id;
+    const jobEditPos = this.state.jobs.findIndex(job => job.id === id);
+    const jobEdit = {
+      id: this.state.jobs[jobEditPos].id,
+      company: e.target.value,
+      jobTitle: this.state.jobs[jobEditPos].jobTitle,
+      newTask: this.state.jobs[jobEditPos].newTask,
+      tasks: this.state.jobs[jobEditPos].tasks,
+      startDate: this.state.jobs[jobEditPos].startDate,
+      endDate: this.state.jobs[jobEditPos].endDate
+    };
+    this.setState({
+      jobs: this.state.jobs.slice(0, jobEditPos).concat(jobEdit).concat(this.state.jobs.slice(jobEditPos + 1))
     })
   }
 
   jobTitleChange(e) {
+    const id = e.target.parentNode.id;
+    const jobEditPos = this.state.jobs.findIndex(job => job.id === id);
+    const jobEdit = {
+      id: this.state.jobs[jobEditPos].id,
+      company: this.state.jobs[jobEditPos].company,
+      jobTitle: e.target.value,
+      newTask: this.state.jobs[jobEditPos].newTask,
+      tasks: this.state.jobs[jobEditPos].tasks,
+      startDate: this.state.jobs[jobEditPos].startDate,
+      endDate: this.state.jobs[jobEditPos].endDate
+    };
     this.setState({
-      jobTitle: e.target.value
+      jobs: this.state.jobs.slice(0, jobEditPos).concat(jobEdit).concat(this.state.jobs.slice(jobEditPos + 1))
     })
   }
 
   newTaskChange(e) {
-    this.setState({
+    const id = e.target.parentNode.parentNode.id;
+    const jobEditPos = this.state.jobs.findIndex(job => job.id === id);
+    const jobEdit = {
+      id: this.state.jobs[jobEditPos].id,
+      company: this.state.jobs[jobEditPos].company,
+      jobTitle: this.state.jobs[jobEditPos].jobTitle,
       newTask: {
         text: e.target.value,
-        id: this.state.newTask.id
-      }
+        id: this.state.jobs[jobEditPos].newTask.id
+      },
+      tasks: this.state.jobs[jobEditPos].tasks,
+      startDate: this.state.jobs[jobEditPos].startDate,
+      endDate: this.state.jobs[jobEditPos].endDate
+    };
+    this.setState({
+      jobs: this.state.jobs.slice(0, jobEditPos).concat(jobEdit).concat(this.state.jobs.slice(jobEditPos + 1))
     })
   }
 
   startDateChange(e) {
+    const id = e.target.parentNode.id;
+    const jobEditPos = this.state.jobs.findIndex(job => job.id === id);
+    const jobEdit = {
+      id: this.state.jobs[jobEditPos].id,
+      company: this.state.jobs[jobEditPos].company,
+      jobTitle: this.state.jobs[jobEditPos].jobTitle,
+      newTask: this.state.jobs[jobEditPos].newTask,
+      tasks: this.state.jobs[jobEditPos].tasks,
+      startDate: e.target.value,
+      endDate: this.state.jobs[jobEditPos].endDate
+    };
     this.setState({
-      startDate: e.target.value
+      jobs: this.state.jobs.slice(0, jobEditPos).concat(jobEdit).concat(this.state.jobs.slice(jobEditPos + 1))
     })
   }
 
   endDateChange(e) {
-    this.setState({
+    const id = e.target.parentNode.id;
+    const jobEditPos = this.state.jobs.findIndex(job => job.id === id);
+    const jobEdit = {
+      id: this.state.jobs[jobEditPos].id,
+      company: this.state.jobs[jobEditPos].company,
+      jobTitle: this.state.jobs[jobEditPos].jobTitle,
+      newTask: this.state.jobs[jobEditPos].newTask,
+      tasks: this.state.jobs[jobEditPos].tasks,
+      startDate: this.state.jobs[jobEditPos].startDate,
       endDate: e.target.value
+    };
+    this.setState({
+      jobs: this.state.jobs.slice(0, jobEditPos).concat(jobEdit).concat(this.state.jobs.slice(jobEditPos + 1))
     })
   }
 
   addTask(e) {
     e.preventDefault();
-    this.setState({
-      tasks: this.state.tasks.concat(this.state.newTask),
+    const id = e.target.parentNode.parentNode.id;
+    const jobEditPos = this.state.jobs.findIndex(job => job.id === id);
+    const jobEdit = {
+      id: this.state.jobs[jobEditPos].id,
+      company: this.state.jobs[jobEditPos].company,
+      jobTitle: this.state.jobs[jobEditPos].jobTitle,
       newTask: {
         text: '',
         id: uniqid()
-      }
+      },
+      tasks: this.state.jobs[jobEditPos].tasks.concat(this.state.jobs[jobEditPos].newTask),
+      startDate: this.state.jobs[jobEditPos].startDate,
+      endDate: this.state.jobs[jobEditPos].endDate
+    };
+    this.setState({
+      jobs: this.state.jobs.slice(0, jobEditPos).concat(jobEdit).concat(this.state.jobs.slice(jobEditPos + 1))
     })
   }
 
   saveTask(e) {
-    const id = e.target.parentNode.id;
-    const taskEditPos = this.state.tasks.findIndex(task => task.id === id);
-    const taskEdit = {text: this.state.tasks[taskEditPos].tempText, id: this.state.tasks[taskEditPos].id, isEditing: false, tempText: ''};
+    const jobId = e.target.parentNode.parentNode.id;
+    const jobEditPos = this.state.jobs.findIndex(job => job.id === jobId);
+    const taskId = e.target.parentNode.id;
+    const taskEditPos = this.state.jobs[jobEditPos].tasks.findIndex(task => task.id === taskId);
+    const taskEdit = {
+      text: this.state.jobs[jobEditPos].tasks[taskEditPos].tempText,
+      id: this.state.jobs[jobEditPos].tasks[taskEditPos].id,
+      isEditing: false,
+      tempText: ''
+    };
+    const jobEdit = {
+      id: this.state.jobs[jobEditPos].id,
+      company: this.state.jobs[jobEditPos].company,
+      jobTitle: this.state.jobs[jobEditPos].jobTitle,
+      newTask: this.state.jobs[jobEditPos].newTask,
+      tasks: this.state.jobs[jobEditPos].tasks.slice(0, taskEditPos).concat(taskEdit).concat(this.state.jobs[jobEditPos].tasks.slice(taskEditPos + 1)),
+      startDate: this.state.jobs[jobEditPos].startDate,
+      endDate: this.state.jobs[jobEditPos].endDate
+    };
     this.setState({
-      tasks: this.state.tasks.slice(0, taskEditPos).concat(taskEdit).concat(this.state.tasks.slice(taskEditPos + 1))
+      jobs: this.state.jobs.slice(0, jobEditPos).concat(jobEdit).concat(this.state.jobs.slice(jobEditPos + 1))
     })
   }
 
   tempSaveTask(e) {
-    const id = e.target.parentNode.id;
-    const taskEditPos = this.state.tasks.findIndex(task => task.id === id);
-    const taskEdit = {text: this.state.tasks[taskEditPos].text, id: this.state.tasks[taskEditPos].id, isEditing: true, tempText: e.target.parentNode.childNodes[0].value};
+    const jobId = e.target.parentNode.parentNode.id;
+    const jobEditPos = this.state.jobs.findIndex(job => job.id === jobId);
+    const taskId = e.target.parentNode.id;
+    const taskEditPos = this.state.jobs[jobEditPos].tasks.findIndex(task => task.id === taskId);
+    const taskEdit = {
+      text: this.state.jobs[jobEditPos].tasks[taskEditPos].tempText,
+      id: this.state.jobs[jobEditPos].tasks[taskEditPos].id,
+      isEditing: true,
+      tempText: e.target.parentNode.childNodes[0].value
+    };
+    const jobEdit = {
+      id: this.state.jobs[jobEditPos].id,
+      company: this.state.jobs[jobEditPos].company,
+      jobTitle: this.state.jobs[jobEditPos].jobTitle,
+      newTask: this.state.jobs[jobEditPos].newTask,
+      tasks: this.state.jobs[jobEditPos].tasks.slice(0, taskEditPos).concat(taskEdit).concat(this.state.jobs[jobEditPos].tasks.slice(taskEditPos + 1)),
+      startDate: this.state.jobs[jobEditPos].startDate,
+      endDate: this.state.jobs[jobEditPos].endDate
+    };
     this.setState({
-      tasks: this.state.tasks.slice(0, taskEditPos).concat(taskEdit).concat(this.state.tasks.slice(taskEditPos + 1))
+      jobs: this.state.jobs.slice(0, jobEditPos).concat(jobEdit).concat(this.state.jobs.slice(jobEditPos + 1))
     })
   }
 
   editTask(e) {
-    const id = e.target.parentNode.id;
-    const taskEditPos = this.state.tasks.findIndex(task => task.id === id);
-    const taskEdit = {text: this.state.tasks[taskEditPos].text, id: this.state.tasks[taskEditPos].id, isEditing: true, tempText: this.state.tasks[taskEditPos].text};
+    const jobId = e.target.parentNode.parentNode.id;
+    const jobEditPos = this.state.jobs.findIndex(job => job.id === jobId);
+    const taskId = e.target.parentNode.id;
+    const taskEditPos = this.state.jobs[jobEditPos].tasks.findIndex(task => task.id === taskId);
+    const taskEdit = {
+      text: this.state.jobs[jobEditPos].tasks[taskEditPos].tempText,
+      id: this.state.jobs[jobEditPos].tasks[taskEditPos].id,
+      isEditing: true,
+      tempText: this.state.jobs[jobEditPos].tasks[taskEditPos].text
+    };
+    const jobEdit = {
+      id: this.state.jobs[jobEditPos].id,
+      company: this.state.jobs[jobEditPos].company,
+      jobTitle: this.state.jobs[jobEditPos].jobTitle,
+      newTask: this.state.jobs[jobEditPos].newTask,
+      tasks: this.state.jobs[jobEditPos].tasks.slice(0, taskEditPos).concat(taskEdit).concat(this.state.jobs[jobEditPos].tasks.slice(taskEditPos + 1)),
+      startDate: this.state.jobs[jobEditPos].startDate,
+      endDate: this.state.jobs[jobEditPos].endDate
+    };
     this.setState({
-      tasks: this.state.tasks.slice(0, taskEditPos).concat(taskEdit).concat(this.state.tasks.slice(taskEditPos + 1))
+      jobs: this.state.jobs.slice(0, jobEditPos).concat(jobEdit).concat(this.state.jobs.slice(jobEditPos + 1))
     })
   }
 
   deleteTask(e) {
     this.setState({
       tasks: this.state.tasks.filter(task => task.id !== e.target.parentNode.id)
+    })
+
+    const jobId = e.target.parentNode.parentNode.id;
+    const jobEditPos = this.state.jobs.findIndex(job => job.id === jobId);
+    const jobEdit = {
+      id: this.state.jobs[jobEditPos].id,
+      company: this.state.jobs[jobEditPos].company,
+      jobTitle: this.state.jobs[jobEditPos].jobTitle,
+      newTask: this.state.jobs[jobEditPos].newTask,
+      tasks: this.state.jobs[jobEditPos].tasks.filter(task => task.id !== e.target.parentNode.id),
+      startDate: this.state.jobs[jobEditPos].startDate,
+      endDate: this.state.jobs[jobEditPos].endDate
+    };
+    this.setState({
+      jobs: this.state.jobs.slice(0, jobEditPos).concat(jobEdit).concat(this.state.jobs.slice(jobEditPos + 1))
     })
   }
 
@@ -248,12 +387,7 @@ class App extends Component {
       />
     } else if (this.state.currentTab === 'Experience') {
       return <Experience
-        company = {this.state.company}
-        jobTitle = {this.state.jobTitle}
-        tasks = {this.state.tasks}
-        newTask = {this.state.newTask}
-        startDate = {this.state.startDate}
-        endDate = {this.state.endDate}
+        jobs = {this.state.jobs}
         companyChange = {this.companyChange}
         jobTitleChange = {this.jobTitleChange}
         addTask = {this.addTask}
@@ -264,6 +398,7 @@ class App extends Component {
         saveTask = {this.saveTask}
         tempSaveTask = {this.tempSaveTask}
         deleteTask = {this.deleteTask}
+        addJob = {this.addJob}
         nextTab = {this.nextTab}
       />
     }
