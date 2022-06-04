@@ -19,6 +19,9 @@
 
 .task-form {
   grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .task-input {
@@ -35,6 +38,7 @@
 .task-item {
   display: grid;
   grid-template-columns: 80% 1fr 1fr;
+  align-items: center;
 }
 
 .task-item * {
@@ -47,6 +51,4 @@
   position: absolute;
   top: 0;
   right: 0;
-
-  cursor: pointer;
 }

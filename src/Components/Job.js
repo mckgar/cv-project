@@ -33,15 +33,20 @@ class Job extends Component {
           value={job.newTask.text}
           onChange={newTaskChange}
         />
-        <button onClick={addTask}>Add Task</button>
+        <div
+          className="add-task material-symbols-outlined"
+          onClick={addTask}
+        >
+          add_circle
+        </div>
       </div>
 
     const viewTaskItem = (task) => {
       return (
         <li key={task.id} id={task.id} className='task-item'>
           <div>{task.text}</div>
-          <div className='edit' onClick={editTask}>EDIT</div>
-          <div className='delete' onClick={deleteTask}>DELETE</div>
+          <div className='edit material-symbols-outlined' onClick={editTask}>edit</div>
+          <div className='delete material-symbols-outlined' onClick={deleteTask}>delete</div>
         </li>
       )
     }
@@ -50,8 +55,8 @@ class Job extends Component {
       return (
         <li key={task.id} id={task.id} className='task-item'>
           <input type='text' value={task.tempText} onChange={tempSaveTask} />
-          <div className='save' onClick={saveTask}>SAVE</div>
-          <div className='delete' onClick={deleteTask}>DELETE</div>
+          <div className='save material-symbols-outlined' onClick={saveTask}>save</div>
+          <div className='delete material-symbols-outlined' onClick={deleteTask}>delete</div>
         </li>
       )
     }
@@ -120,7 +125,7 @@ class Job extends Component {
           {taskList}
         </ul>
 
-        <div className="delete-job" onClick={removeJob}>DELETE</div>
+        <div className="delete-job material-symbols-outlined" onClick={removeJob}>delete</div>
         
       </div>
     )
