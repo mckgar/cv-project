@@ -18,7 +18,8 @@ class Job extends Component {
       editTask,
       saveTask,
       tempSaveTask,
-      deleteTask
+      deleteTask,
+      removeJob
     } = this.props;
 
     const taskForm = 
@@ -118,6 +119,8 @@ class Job extends Component {
         <ul id={job.id} className='task-list'>
           {taskList}
         </ul>
+
+        <div className="delete-job" onClick={removeJob}>DELETE</div>
         
       </div>
     )

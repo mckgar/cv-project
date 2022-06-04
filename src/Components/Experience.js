@@ -22,6 +22,7 @@ class Experience extends Component {
       tempSaveTask,
       deleteTask,
       addJob,
+      removeJob,
       nextTab
     } = this.props;
 
@@ -38,6 +39,7 @@ class Experience extends Component {
         saveTask = {saveTask}
         tempSaveTask = {tempSaveTask}
         deleteTask = {deleteTask}
+        removeJob = {removeJob}
         key = {job.id}
       />
     )

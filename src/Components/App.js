@@ -46,6 +46,7 @@ class App extends Component {
     this.gradChange = this.gradChange.bind(this);
 
     this.addJob = this.addJob.bind(this);
+    this.removeJob = this.removeJob.bind(this);
     this.companyChange = this.companyChange.bind(this);
     this.jobTitleChange = this.jobTitleChange.bind(this);
     this.newTaskChange = this.newTaskChange.bind(this);
@@ -152,6 +153,13 @@ class App extends Component {
     }
     this.setState({
       jobs: this.state.jobs.concat(newJob),
+    })
+  }
+
+  removeJob(e) {
+    const id = e.target.parentNode.id;
+    this.setState({
+      jobs: this.state.jobs.filter(job => job.id !== id),
     })
   }
 
@@ -442,6 +450,7 @@ class App extends Component {
         tempSaveTask = {this.tempSaveTask}
         deleteTask = {this.deleteTask}
         addJob = {this.addJob}
+        removeJob = {this.removeJob}
         nextTab = {this.nextTab}
       />
     }
