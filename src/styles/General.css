@@ -1,0 +1,13 @@
+#general {
+  display: grid;
+  grid-template-columns: repeat(2, calc(min(18rem, 49vw)));
+  grid-template-rows: repeat(4, 1fr);
+  column-gap: min(1rem, 1vw);
+
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  grid-column: 2;
+}

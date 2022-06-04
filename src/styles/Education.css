@@ -1,0 +1,24 @@
+#education {
+  display: grid;
+  grid-template-columns: repeat(3, calc(min(12rem, 32vw)));
+  grid-template-rows: repeat(5, 1fr);
+  column-gap: min(1rem, 1vw);
+
+  justify-content: center;
+  align-items: center;
+}
+
+legend {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+.form-item.school {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+
+button {
+  grid-column: -2;
+  grid-row: -2;
+}

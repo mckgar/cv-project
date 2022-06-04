@@ -1,4 +1,5 @@
 import { Component } from "react";
+import '../styles/Experience.css';
 
 import Job from './Job';
 
@@ -42,12 +43,14 @@ class Experience extends Component {
     )
 
     return (
-      <div id="Experience" className="form-tab">
+      <form id="Experience" className="form-tab" onSubmit={nextTab}>
+        <legend>Enter your work history</legend>
         {jobForms}
-        <button onClick={addJob}>Add job</button>
-
-        <button onClick={nextTab}>Finish {">"}</button>
-      </div>
+        <div className="buttons">
+          <div className="add-job" onClick={addJob}>Add job</div>
+          <button type="submit">Finish {">"}</button>
+        </div>
+      </form>
     )
   }
 }

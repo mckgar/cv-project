@@ -14,6 +14,9 @@ class App extends Component {
 
     this.state = {
       currentTab: 'General',
+      generalStatus: 'unfinsihed',
+      educationStatus: 'unfinsihed',
+      experienceStatus: 'unfinsihed',
 
       firstName: '',
       surname: '',
@@ -62,24 +65,42 @@ class App extends Component {
     this.setState({
       firstName: e.target.value,
     })
+    e.target.parentNode.childNodes[2].textContent = e.target.validationMessage;
   }
 
   surnameChange(e) {
     this.setState({
       surname: e.target.value,
     })
+    e.target.parentNode.childNodes[2].textContent = e.target.validationMessage;
   }
 
   emailChange(e) {
     this.setState({
       email: e.target.value,
     })
+
+    if (e.target.validity.typeMismatch) {
+      e.target.setCustomValidity('Please enter a valid email');
+    } else {
+      e.target.setCustomValidity('');
+    }
+    e.target.parentNode.childNodes[2].textContent = e.target.validationMessage;
   }
 
   numberChange(e) {
     this.setState({
       number: e.target.value,
     })
+
+    if (e.target.validity.typeMismatch) {
+      e.target.setCustomValidity('Please enter a valid phone number');
+    } else if (e.target.validity.patternMismatch) {
+      e.target.setCustomValidity('Please match format: 555 555-5555')
+    } else {
+      e.target.setCustomValidity('');
+    }
+    e.target.parentNode.childNodes[2].textContent = e.target.validationMessage;
   }
 
   /* Education Information tab functions */
@@ -88,24 +109,28 @@ class App extends Component {
     this.setState({
       school: e.target.value,
     })
+    e.target.parentNode.childNodes[2].textContent = e.target.validationMessage;
   }
 
   degreeNameChange(e) {
     this.setState({
       degreeName: e.target.value,
     })
+    e.target.parentNode.childNodes[2].textContent = e.target.validationMessage;
   }
 
   degreeTypeChange(e) {
     this.setState({
       degreeType: e.target.value,
     })
+    e.target.parentNode.childNodes[2].textContent = e.target.validationMessage;
   }
 
   gradChange(e) {
     this.setState({
       grad: e.target.value,
     })
+    e.target.parentNode.childNodes[2].textContent = e.target.validationMessage;
   }
 
   /* Experience Information tab functions */
@@ -131,7 +156,7 @@ class App extends Component {
   }
 
   companyChange(e) {
-    const id = e.target.parentNode.id;
+    const id = e.target.parentNode.parentNode.id;
     const jobEditPos = this.state.jobs.findIndex(job => job.id === id);
     const jobEdit = {
       id: this.state.jobs[jobEditPos].id,
@@ -145,10 +170,11 @@ class App extends Component {
     this.setState({
       jobs: this.state.jobs.slice(0, jobEditPos).concat(jobEdit).concat(this.state.jobs.slice(jobEditPos + 1))
     })
+    e.target.parentNode.childNodes[2].textContent = e.target.validationMessage;
   }
 
   jobTitleChange(e) {
-    const id = e.target.parentNode.id;
+    const id = e.target.parentNode.parentNode.id;
     const jobEditPos = this.state.jobs.findIndex(job => job.id === id);
     const jobEdit = {
       id: this.state.jobs[jobEditPos].id,
@@ -162,6 +188,7 @@ class App extends Component {
     this.setState({
       jobs: this.state.jobs.slice(0, jobEditPos).concat(jobEdit).concat(this.state.jobs.slice(jobEditPos + 1))
     })
+    e.target.parentNode.childNodes[2].textContent = e.target.validationMessage;
   }
 
   newTaskChange(e) {
@@ -185,7 +212,7 @@ class App extends Component {
   }
 
   startDateChange(e) {
-    const id = e.target.parentNode.id;
+    const id = e.target.parentNode.parentNode.id;
     const jobEditPos = this.state.jobs.findIndex(job => job.id === id);
     const jobEdit = {
       id: this.state.jobs[jobEditPos].id,
@@ -199,10 +226,11 @@ class App extends Component {
     this.setState({
       jobs: this.state.jobs.slice(0, jobEditPos).concat(jobEdit).concat(this.state.jobs.slice(jobEditPos + 1))
     })
+    e.target.parentNode.childNodes[2].textContent = e.target.validationMessage;
   }
 
   endDateChange(e) {
-    const id = e.target.parentNode.id;
+    const id = e.target.parentNode.parentNode.id;
     const jobEditPos = this.state.jobs.findIndex(job => job.id === id);
     const jobEdit = {
       id: this.state.jobs[jobEditPos].id,
@@ -216,6 +244,7 @@ class App extends Component {
     this.setState({
       jobs: this.state.jobs.slice(0, jobEditPos).concat(jobEdit).concat(this.state.jobs.slice(jobEditPos + 1))
     })
+    e.target.parentNode.childNodes[2].textContent = e.target.validationMessage;
   }
 
   addTask(e) {
@@ -315,10 +344,6 @@ class App extends Component {
   }
 
   deleteTask(e) {
-    this.setState({
-      tasks: this.state.tasks.filter(task => task.id !== e.target.parentNode.id)
-    })
-
     const jobId = e.target.parentNode.parentNode.id;
     const jobEditPos = this.state.jobs.findIndex(job => job.id === jobId);
     const jobEdit = {
@@ -338,24 +363,42 @@ class App extends Component {
   /* Tab changing functions */
 
   changeTab(newTab) {
-    this.setState({
-      currentTab: newTab,
-    })
+    let canChange = false;
+
+    if (newTab === 'General') {
+      canChange = true;
+    } else if (newTab === 'Education' && this.state.generalStatus === 'finished') {
+      canChange = true;
+    } else if (newTab === 'Experience'
+      && this.state.generalStatus === 'finished'
+      && this.state.educationStatus === 'finished'
+    ) {
+      canChange = true;
+    }
+
+    if (canChange) {
+      this.setState({
+        currentTab: newTab,
+      })
+  }
   }
 
   nextTab(e) {
     e.preventDefault();
     if (this.state.currentTab === 'General') {
       this.setState({
-        currentTab: 'Education'
+        currentTab: 'Education',
+        generalStatus: 'finished'
       })
     } else if (this.state.currentTab === 'Education') {
       this.setState({
-        currentTab: 'Experience'
+        currentTab: 'Experience',
+        educationStatus: 'finished'
       })
     } else if (this.state.currentTab === 'Experience') {
       this.setState({
-        currentTab: 'Finished'
+        currentTab: 'Finished',
+        experienceStatus: 'finished'
       })
     }
   }
@@ -409,7 +452,15 @@ class App extends Component {
     return (
       <div className="App">
         <Header title='CV Creator' />
-        <NavBar tabs={['General', 'Education', 'Experience']} currentTab={this.state.currentTab} changeTab={this.changeTab} />
+        <NavBar
+          tabs={[
+            {text: 'General', status: this.state.generalStatus},
+            {text: 'Education', status: this.state.educationStatus},
+            {text: 'Experience', status: this.state.experienceStatus}
+          ]}
+          currentTab={this.state.currentTab}
+          changeTab={this.changeTab}
+        />
         {form}
       </div>
     );

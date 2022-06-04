@@ -7,15 +7,19 @@ class NavBar extends Component {
   }
 
   render() {
-    const { tabs, currentTab, changeTab } = this.props;
+    const {
+      tabs,
+      currentTab,
+      changeTab
+    } = this.props;
     const pageTabs = tabs.map((tab) => 
       <div
-        key={tab}
-        id={tab}
-        className={`nav-tab ${tab === currentTab}`}
-        onClick={(e) => changeTab(tab)}
+        key={tab.text}
+        id={tab.text}
+        className={`nav-tab ${tab.text === currentTab} ${tab.status}`}
+        onClick={(e) => changeTab(tab.text)}
       >
-        {tab}
+        {tab.text}
       </div>)
     return (
       <nav>

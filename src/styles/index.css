@@ -19,6 +19,9 @@ code {
 
 :root {
   --select-color: blue;
+  --success-color: green;
+  --error-color: red;
+
   --header-background-color: #282c34;
   --font-color-light: aliceblue;
 }
