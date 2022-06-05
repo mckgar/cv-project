@@ -7,6 +7,7 @@ import NavBar from './NavBar';
 import General from './General';
 import Education from './Education';
 import Experience from './Experience';
+import Preview from './Preview';
 
 class App extends Component {
   constructor(props) {
@@ -25,7 +26,6 @@ class App extends Component {
 
       school: '',
       degreeName: '',
-      degreeType: '',
       grad: '',
 
       jobs: []
@@ -42,7 +42,6 @@ class App extends Component {
 
     this.schoolChange = this.schoolChange.bind(this);
     this.degreeNameChange = this.degreeNameChange.bind(this);
-    this.degreeTypeChange = this.degreeTypeChange.bind(this);
     this.gradChange = this.gradChange.bind(this);
 
     this.addJob = this.addJob.bind(this);
@@ -120,17 +119,16 @@ class App extends Component {
     e.target.parentNode.childNodes[2].textContent = e.target.validationMessage;
   }
 
-  degreeTypeChange(e) {
-    this.setState({
-      degreeType: e.target.value,
-    })
-    e.target.parentNode.childNodes[2].textContent = e.target.validationMessage;
-  }
-
   gradChange(e) {
     this.setState({
       grad: e.target.value,
     })
+
+    if (e.target.validity.patternMismatch) {
+      e.target.setCustomValidity('Please match format: yyyy')
+    } else {
+      e.target.setCustomValidity('');
+    }
     e.target.parentNode.childNodes[2].textContent = e.target.validationMessage;
   }
 
@@ -428,11 +426,9 @@ class App extends Component {
       return <Education 
         school = {this.state.school}
         degreeName = {this.state.degreeName}
-        degreeType = {this.state.degreeType}
         grad = {this.state.grad}
         schoolChange = {this.schoolChange}
         degreeNameChange = {this.degreeNameChange}
-        degreeTypeChange = {this.degreeTypeChange}
         gradChange = {this.gradChange}
         nextTab = {this.nextTab}
       />
@@ -452,6 +448,17 @@ class App extends Component {
         addJob = {this.addJob}
         removeJob = {this.removeJob}
         nextTab = {this.nextTab}
+      />
+    } else {
+      return <Preview
+        firstName = {this.state.firstName}
+        surname = {this.state.surname}
+        email = {this.state.email}
+        number = {this.state.number}
+        school = {this.state.school}
+        degreeName = {this.state.degreeName}
+        gradDate = {this.state.grad}
+        jobs = {this.state.jobs}
       />
     }
   }

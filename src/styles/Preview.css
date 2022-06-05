@@ -1,0 +1,76 @@
+#cv-preview {
+  display: flex;
+  flex-direction: column;
+  padding: 96px;
+
+  text-align: left;
+  font-size: 12px;
+
+  background-color: white;
+  width: 816px;
+  height: 1054px;
+  justify-self: center;
+  margin: 0 auto 2rem;
+}
+
+#cv-name {
+  font-size: 24px;
+  text-align: center;
+}
+
+#contact-info {
+  text-align: center;
+}
+
+.cv-title {
+  font-size: 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  width: 100%;
+}
+
+#education-info,
+.job-info {
+  margin-bottom: 1rem;
+}
+
+#education-info {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+#school-name {
+  grid-row: 2;
+  grid-column: 1 / -1;
+}
+
+#grad-date {
+  justify-self: right;
+}
+
+.job-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(auto-fit, 1fr);
+}
+
+.job-info .job-title {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.job-info .company-name {
+  grid-row: 2;
+  grid-column: 1;
+}
+
+.job-info .duration {
+  grid-row: 1;
+  grid-column: 2;
+  justify-self: right;
+}
+
+.job-info .task-list {
+  margin-top: 0.5rem;
+  margin-left: 1rem;
+}

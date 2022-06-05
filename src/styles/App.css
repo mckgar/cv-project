@@ -19,6 +19,12 @@
   text-align: start;
 }
 
+input {
+  padding-left: 0.8rem;
+  border-radius: 15px;
+  height: 1.4rem
+}
+
 input:valid {
   border: 1px solid var(--success-color);
 }
@@ -43,4 +49,21 @@ input:focus {
 
 .material-symbols-outlined {
   cursor: pointer;
+}
+
+button {
+  justify-self: end;
+  border-style: none;
+  text-decoration: none;
+  text-justify: center;
+}
+
+button,
+.add-job {
+  background-color: var(--header-background-color);
+  color: var(--font-color-light);
+  border-radius: 1000px;
+  padding: 0.45rem 0.75rem;
+  font-size: 1rem;
+  font-weight: normal;
 }

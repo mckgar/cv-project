@@ -10,6 +10,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  background-color: var(--page-background-color);
 }
 
 code {
@@ -23,5 +25,6 @@ code {
   --error-color: red;
 
   --header-background-color: #282c34;
+  --page-background-color: #D9D3D9;
   --font-color-light: aliceblue;
 }
