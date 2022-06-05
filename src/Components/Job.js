@@ -98,10 +98,11 @@ class Job extends Component {
         <div className="form-item start-date">
           <label htmlFor="start-date">Start Date*</label>
           <input
-            type='date'
+            type='text'
             id='start-date'
             name='start-date'
             required
+            placeholder="July 2021"
             value={job.startDate}
             onChange={startDateChange}
           />
@@ -109,11 +110,13 @@ class Job extends Component {
         </div>
 
         <div className="form-item end-date">
-          <label htmlFor="end-date">End Date (blank if current)</label>
+          <label htmlFor="end-date">End Date*</label>
           <input
-            type='date'
+            type='text'
             id='end-date'
             name='end-date'
+            required
+            placeholder="Present"
             value={job.endDate}
             onChange={endDateChange}
           />

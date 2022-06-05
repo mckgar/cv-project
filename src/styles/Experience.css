@@ -13,3 +13,10 @@
 button[type='submit'] {
   align-self: end;
 }
+
+.add-job {
+  justify-self: center;
+  align-self: center;
+
+  cursor: pointer;
+}
