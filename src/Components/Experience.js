@@ -50,7 +50,7 @@ class Experience extends Component {
         {jobForms}
         <div className="buttons">
           <div className="add-job" onClick={addJob}>Add job</div>
-          <button type="submit">Finish {">"}</button>
+          <button type="submit">Skills {">"}</button>
         </div>
       </form>
     )

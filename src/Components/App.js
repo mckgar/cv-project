@@ -8,6 +8,8 @@ import General from './General';
 import Education from './Education';
 import Experience from './Experience';
 import Preview from './Preview';
+import Skills from './Skills';
+import Summary from './Summary';
 
 class App extends Component {
   constructor(props) {
@@ -18,6 +20,8 @@ class App extends Component {
       generalStatus: 'unfinsihed',
       educationStatus: 'unfinsihed',
       experienceStatus: 'unfinsihed',
+      skillsStatus: 'unfinished',
+      summaryStatus: 'unfinished',
 
       firstName: '',
       surname: '',
@@ -28,7 +32,17 @@ class App extends Component {
       degreeName: '',
       grad: '',
 
-      jobs: []
+      jobs: [],
+
+      skills: [],
+      newSkill: {
+        text: '',
+        id: uniqid(),
+        isEditing: false,
+        tempText: ''
+      },
+
+      summary: ''
     }
 
     this.ActiveTab = this.ActiveTab.bind(this);
@@ -56,6 +70,15 @@ class App extends Component {
     this.tempSaveTask = this.tempSaveTask.bind(this);
     this.editTask = this.editTask.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
+
+    this.newSkillChange = this.newSkillChange.bind(this);
+    this.addSkill = this.addSkill.bind(this);
+    this.editSkill = this.editSkill.bind(this);
+    this.saveSkill = this.saveSkill.bind(this);
+    this.tempSaveSkill = this.tempSaveSkill.bind(this);
+    this.deleteSkill = this.deleteSkill.bind(this);
+
+    this.summaryChange = this.summaryChange.bind(this);
     
   }
 
@@ -366,6 +389,87 @@ class App extends Component {
     })
   }
 
+  /* Skill tab functions */
+
+  newSkillChange(e) {
+    this.setState({
+      newSkill: {
+        text: e.target.value,
+        id: this.state.newSkill.id,
+        isEditing: false,
+        tempText: ''
+      }
+    })
+  }
+
+  addSkill() {
+    this.setState({
+      skills: this.state.skills.concat(this.state.newSkill),
+      newSkill: {
+        text: '',
+        id: uniqid(),
+        isEditing: false,
+        tempText: ''
+      }
+    })
+  }
+
+  editSkill(e) {
+    const id = e.target.parentNode.id;
+    const skillEditPos = this.state.skills.findIndex(skill => skill.id === id);
+    const skillEdit = {
+      text: this.state.skills[skillEditPos].tempText,
+      id: this.state.skills[skillEditPos].id,
+      isEditing: true,
+      tempText: this.state.tasks[skillEditPos].text
+    }
+    this.setState({
+      skills: this.skills.slice(0, skillEditPos).concat(skillEdit).concat(this.skills.slice(skillEditPos + 1))
+    })
+  }
+
+  saveSkill(e) {
+    const id = e.target.parentNode.id;
+    const skillEditPos = this.state.skills.findIndex(skill => skill.id === id);
+    const skillEdit = {
+      text: this.state.skills[skillEditPos].tempText,
+      id: this.state.skills[skillEditPos].id,
+      isEditing: false,
+      tempText: ''
+    }
+    this.setState({
+      skills: this.skills.slice(0, skillEditPos).concat(skillEdit).concat(this.skills.slice(skillEditPos + 1))
+    })
+  }
+
+  tempSaveSkill(e) {
+    const id = e.target.parentNode.id;
+    const skillEditPos = this.state.skills.findIndex(skill => skill.id === id);
+    const skillEdit = {
+      text: this.state.skills[skillEditPos].tempText,
+      id: this.state.skills[skillEditPos].id,
+      isEditing: false,
+      tempText: e.target.parentNode.childNodes[0].value
+    }
+    this.setState({
+      skills: this.skills.slice(0, skillEditPos).concat(skillEdit).concat(this.skills.slice(skillEditPos + 1))
+    })
+  }
+
+  deleteSkill(e) {
+    this.setState({
+      skills: this.state.skills.filter(skill => skill.id !== e.target.parentNode.id)
+    })
+  }
+
+  /* Summary tab functions */
+
+  summaryChange(e) {
+    this.setState({
+      summary: e.target.value
+    })
+  }
+
   /* Tab changing functions */
 
   changeTab(newTab) {
@@ -380,13 +484,26 @@ class App extends Component {
       && this.state.educationStatus === 'finished'
     ) {
       canChange = true;
-    }
+    } else if (newTab === 'Skills'
+      && this.state.generalStatus === 'finished'
+      && this.state.educationStatus === 'finished'
+      && this.state.experienceStatus === 'finished'
+    ) {
+      canChange = true;
+    } else if (newTab === 'Summary'
+    && this.state.generalStatus === 'finished'
+    && this.state.educationStatus === 'finished'
+    && this.state.experienceStatus === 'finished'
+    && this.state.skillsStatus === 'finished'
+  ) {
+    canChange = true;
+  }
 
     if (canChange) {
       this.setState({
         currentTab: newTab,
       })
-  }
+    }
   }
 
   nextTab(e) {
@@ -403,8 +520,18 @@ class App extends Component {
       })
     } else if (this.state.currentTab === 'Experience') {
       this.setState({
-        currentTab: 'Finished',
+        currentTab: 'Skills',
         experienceStatus: 'finished'
+      })
+    } else if (this.state.currentTab === 'Skills') {
+      this.setState({
+        currentTab: 'Summary',
+        skillsStatus: 'finished'
+      })
+    } else if (this.state.currentTab === 'Summary') {
+      this.setState({
+        currentTab: 'Finished',
+        summaryStatus: 'finished'
       })
     }
   }
@@ -449,6 +576,24 @@ class App extends Component {
         removeJob = {this.removeJob}
         nextTab = {this.nextTab}
       />
+    } else if (this.state.currentTab === 'Skills') {
+      return <Skills
+        skills = {this.state.skills}
+        newSkill = {this.state.newSkill}
+        newSkillChange = {this.newSkillChange}
+        addSkill = {this.addSkill}
+        editSkill = {this.editSkill}
+        saveSkill = {this.saveSkill}
+        tempSaveSkill = {this.tempSaveSkill}
+        deleteSkill = {this.deleteSkill}
+        nextTab = {this.nextTab}
+      />
+    } else if (this.state.currentTab === 'Summary') {
+      return <Summary
+        summary = {this.state.summary}
+        summaryChange = {this.summaryChange}
+        nextTab = {this.nextTab}
+      />
     } else {
       return <Preview
         firstName = {this.state.firstName}
@@ -459,6 +604,8 @@ class App extends Component {
         degreeName = {this.state.degreeName}
         gradDate = {this.state.grad}
         jobs = {this.state.jobs}
+        skills = {this.state.skills}
+        summary = {this.state.summary}
       />
     }
   }
@@ -472,7 +619,9 @@ class App extends Component {
           tabs={[
             {text: 'General', status: this.state.generalStatus},
             {text: 'Education', status: this.state.educationStatus},
-            {text: 'Experience', status: this.state.experienceStatus}
+            {text: 'Experience', status: this.state.experienceStatus},
+            {text: 'Skills', status: this.state.skillsStatus},
+            {text: 'Summary', status: this.state.summaryStatus}
           ]}
           currentTab={this.state.currentTab}
           changeTab={this.changeTab}

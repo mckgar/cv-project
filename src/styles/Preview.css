@@ -28,11 +28,6 @@
   width: 100%;
 }
 
-#education-info,
-.job-info {
-  margin-bottom: 1rem;
-}
-
 #education-info {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -71,6 +66,14 @@
 }
 
 .job-info .task-list {
-  margin-top: 0.5rem;
-  margin-left: 1rem;
+  margin-top: 6px;
+  margin-left: 12px;
+}
+
+.skill {
+  margin-left: 12px;
+}
+
+.content-block {
+  margin-bottom: 12px;
 }
