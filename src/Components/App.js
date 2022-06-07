@@ -328,7 +328,7 @@ class App extends Component {
     const taskId = e.target.parentNode.id;
     const taskEditPos = this.state.jobs[jobEditPos].tasks.findIndex(task => task.id === taskId);
     const taskEdit = {
-      text: this.state.jobs[jobEditPos].tasks[taskEditPos].tempText,
+      text: this.state.jobs[jobEditPos].tasks[taskEditPos].text,
       id: this.state.jobs[jobEditPos].tasks[taskEditPos].id,
       isEditing: true,
       tempText: e.target.parentNode.childNodes[0].value
@@ -353,7 +353,7 @@ class App extends Component {
     const taskId = e.target.parentNode.id;
     const taskEditPos = this.state.jobs[jobEditPos].tasks.findIndex(task => task.id === taskId);
     const taskEdit = {
-      text: this.state.jobs[jobEditPos].tasks[taskEditPos].tempText,
+      text: this.state.jobs[jobEditPos].tasks[taskEditPos].text,
       id: this.state.jobs[jobEditPos].tasks[taskEditPos].id,
       isEditing: true,
       tempText: this.state.jobs[jobEditPos].tasks[taskEditPos].text
@@ -418,13 +418,13 @@ class App extends Component {
     const id = e.target.parentNode.id;
     const skillEditPos = this.state.skills.findIndex(skill => skill.id === id);
     const skillEdit = {
-      text: this.state.skills[skillEditPos].tempText,
+      text: this.state.skills[skillEditPos].text,
       id: this.state.skills[skillEditPos].id,
       isEditing: true,
-      tempText: this.state.tasks[skillEditPos].text
+      tempText: this.state.skills[skillEditPos].text
     }
     this.setState({
-      skills: this.skills.slice(0, skillEditPos).concat(skillEdit).concat(this.skills.slice(skillEditPos + 1))
+      skills: this.state.skills.slice(0, skillEditPos).concat(skillEdit).concat(this.state.skills.slice(skillEditPos + 1))
     })
   }
 
@@ -438,7 +438,7 @@ class App extends Component {
       tempText: ''
     }
     this.setState({
-      skills: this.skills.slice(0, skillEditPos).concat(skillEdit).concat(this.skills.slice(skillEditPos + 1))
+      skills: this.state.skills.slice(0, skillEditPos).concat(skillEdit).concat(this.state.skills.slice(skillEditPos + 1))
     })
   }
 
@@ -446,13 +446,13 @@ class App extends Component {
     const id = e.target.parentNode.id;
     const skillEditPos = this.state.skills.findIndex(skill => skill.id === id);
     const skillEdit = {
-      text: this.state.skills[skillEditPos].tempText,
+      text: this.state.skills[skillEditPos].text,
       id: this.state.skills[skillEditPos].id,
-      isEditing: false,
+      isEditing: true,
       tempText: e.target.parentNode.childNodes[0].value
     }
     this.setState({
-      skills: this.skills.slice(0, skillEditPos).concat(skillEdit).concat(this.skills.slice(skillEditPos + 1))
+      skills: this.state.skills.slice(0, skillEditPos).concat(skillEdit).concat(this.state.skills.slice(skillEditPos + 1))
     })
   }
 
